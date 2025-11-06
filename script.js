@@ -1,20 +1,19 @@
+let id1;
+let id2;
+let id3;
+let id4;
+let id5;
+let id6;
+/* light     Red */
+const lightRed = document.getElementById('red'); const lightRed2 = document.getElementById('red2');
+const lightRed3 = document.getElementById('red3'); const lightRed4 = document.getElementById('red4');
+const lightRed5 = document.getElementById('red5'); const lightRed6 = document.getElementById('red6');
+const lightRed7 = document.getElementById('red7'); const lightRed8 = document.getElementById('red8');
+const lightRed9 = document.getElementById('red9'); const lightRed10 = document.getElementById('red10');
+/* light     Red */
+const corOriginal = '#2b2b2b'; const novaCor = 'red'; // A cor que o círculo vai assumir
+
 function startTest() {
-    /* light     Red */
-    const lightRed = document.getElementById('red');
-    const lightRed2 = document.getElementById('red2');
-    const lightRed3 = document.getElementById('red3');
-    const lightRed4 = document.getElementById('red4');
-    const lightRed5 = document.getElementById('red5');
-    const lightRed6 = document.getElementById('red6');
-    const lightRed7 = document.getElementById('red7');
-    const lightRed8 = document.getElementById('red8');
-    const lightRed9 = document.getElementById('red9');
-    const lightRed10 = document.getElementById('red10');
-    /* light     Red */
-
-    const corOriginal = '#2b2b2b';
-    const novaCor = 'red'; // A cor que o círculo vai assumir
-
     // Muda a cor do círculo imediatamente
     lightRed.style.backgroundColor = corOriginal;
     lightRed2.style.backgroundColor = corOriginal;
@@ -28,37 +27,58 @@ function startTest() {
     lightRed10.style.backgroundColor = corOriginal;
     // Muda a cor do círculo imediatamente  
 
+    const randomTime = randomNumber(5000, 10000);
+
     function randomNumber(min, max) {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    const randomTime = randomNumber(5000, 10000);
+    if (isRunning === false) {
+        id1 = setTimeout(() => {
+            document.body.addEventListener('click', stopSetTimeouts);
+            lightRed.style.backgroundColor = novaCor;
+            lightRed2.style.backgroundColor = novaCor;
+            document.querySelector(".text").innerHTML = "clique na tela quando as luzes se apagarem!";
+            document.querySelector('button').style.display = 'none';
+        }, 0);
 
-    // Define um temporizador para voltar à cor original após o tempo determinado
-    setTimeout(() => {
-        lightRed.style.backgroundColor = novaCor;
-        lightRed2.style.backgroundColor = novaCor;
-        document.querySelector(".text").innerHTML = "clique na tela quando as luzes se apagarem!";
-        document.querySelector('button').style.display = 'none';
-    }, 0);
-    setTimeout(() => {
-        lightRed3.style.backgroundColor = novaCor;
-        lightRed4.style.backgroundColor = novaCor;
-    }, 1000);
-    setTimeout(() => {
-        lightRed5.style.backgroundColor = novaCor;
-        lightRed6.style.backgroundColor = novaCor;
-    }, 2000);
-    setTimeout(() => {
-        lightRed7.style.backgroundColor = novaCor;
-        lightRed8.style.backgroundColor = novaCor;
-    }, 3000);
-    setTimeout(() => {
-        lightRed9.style.backgroundColor = novaCor;
-        lightRed10.style.backgroundColor = novaCor;
-    }, 4000);
-    setTimeout(() => {
-        pararCronometro();
+        id2 = setTimeout(() => {
+            lightRed3.style.backgroundColor = novaCor;
+            lightRed4.style.backgroundColor = novaCor;
+        }, 1000);
+
+        id3 = setTimeout(() => {
+            lightRed5.style.backgroundColor = novaCor;
+            lightRed6.style.backgroundColor = novaCor;
+        }, 2000);
+
+        id4 = setTimeout(() => {
+            lightRed7.style.backgroundColor = novaCor;
+            lightRed8.style.backgroundColor = novaCor;
+        }, 3000);
+
+        id5 = setTimeout(() => {
+            lightRed9.style.backgroundColor = novaCor;
+            lightRed10.style.backgroundColor = novaCor;
+        }, 4000);
+
+        id6 = setTimeout(() => {
+            pararCronometro();
+            lightRed.style.backgroundColor = corOriginal;
+            lightRed2.style.backgroundColor = corOriginal;
+            lightRed3.style.backgroundColor = corOriginal;
+            lightRed4.style.backgroundColor = corOriginal;
+            lightRed5.style.backgroundColor = corOriginal;
+            lightRed6.style.backgroundColor = corOriginal;
+            lightRed7.style.backgroundColor = corOriginal;
+            lightRed8.style.backgroundColor = corOriginal;
+            lightRed9.style.backgroundColor = corOriginal;
+            lightRed10.style.backgroundColor = corOriginal;
+            document.querySelector(".text").innerHTML = ''
+            iniciarCronometro();
+        }, randomTime);
+
+    } else if (stopSetTimeouts) {
         lightRed.style.backgroundColor = corOriginal;
         lightRed2.style.backgroundColor = corOriginal;
         lightRed3.style.backgroundColor = corOriginal;
@@ -69,9 +89,17 @@ function startTest() {
         lightRed8.style.backgroundColor = corOriginal;
         lightRed9.style.backgroundColor = corOriginal;
         lightRed10.style.backgroundColor = corOriginal;
-        document.querySelector(".text").innerHTML = ''
-        iniciarCronometro();
-    }, randomTime);
+        document.querySelector(".text").innerHTML = 'clique so quando as luzes se apagarem!';
+    }
+}
+
+function stopSetTimeouts() {
+    // Verifica se algum temporizador está em execução
+    if (id1 && id2 && id3 && id4 && id5 && id6) {
+        clearTimeout(id1); clearTimeout(id2); clearTimeout(id3); clearTimeout(id4); clearTimeout(id5); clearTimeout(id6);
+        document.getElementById('reset-button').style.display = 'block';
+        document.querySelector(".text").innerHTML = 'Clique somente quando as luzes se apagarem!';
+    }
 }
 
 let startTime;
@@ -101,7 +129,6 @@ function atualizarCronometro() {
 
     return `${segundosFormatados}:${milesimosFormatados}`;
 }
-
 // Inicia o cronômetro com setInterval
 function iniciarCronometro() {
 
@@ -122,10 +149,9 @@ function pararCronometro() {
         clearInterval(cronometroInterval);
         isRunning = false;
         cronometroDisplay.textContent = formatarTempo(segundos) + ":" + formatarTempo(milesimos);
-        console.log("O cronômetro foi parado.");
-        document.getElementById("stopwatch").style.display = 'block';
         document.getElementById('restart-button').style.display = 'block';
         document.body.removeEventListener("click", pararCronometro);
+        document.querySelector(".button1").style.display = 'none';
     }
     if (elapsedTime <= 200) {
         document.querySelector(".text").innerHTML = 'A reação de um piloto de F1 é de 200 ms!<br>Que reflexo rápido! Impressionante!<br>';
@@ -151,4 +177,25 @@ function restart() {
     document.getElementById('restart-button').style.display = 'none';
     document.querySelector("button").style.display = 'block';
     document.querySelector(".text").innerHTML = '';
+    document.body.removeEventListener("click", stopSetTimeouts);
+}
+
+function reset() {
+    setTimeout(() => {
+        lightRed.style.backgroundColor = corOriginal;
+        lightRed2.style.backgroundColor = corOriginal;
+        lightRed3.style.backgroundColor = corOriginal;
+        lightRed4.style.backgroundColor = corOriginal;
+        lightRed5.style.backgroundColor = corOriginal;
+        lightRed6.style.backgroundColor = corOriginal;
+        lightRed7.style.backgroundColor = corOriginal;
+        lightRed8.style.backgroundColor = corOriginal;
+        lightRed9.style.backgroundColor = corOriginal;
+        lightRed10.style.backgroundColor = corOriginal;
+        
+        document.querySelector(".button1").style.display = 'none';
+        document.querySelector(".text").innerHTML = '';
+    }, 0)
+    document.querySelector("button").style.display = 'block';
+    document.body.removeEventListener("click", stopSetTimeouts);
 }
